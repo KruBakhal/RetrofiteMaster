@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ import com.example.myapplication.Practice.model.ConnectionModel;
 import com.example.myapplication.Practice.model.Datum;
 import com.example.myapplication.Practice.model.Example;
 import com.example.myapplication.R;
+import com.example.myapplication.databinding.ActivityMain2Binding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,14 +55,16 @@ public class MainActivity extends AppCompatActivity implements User_Adapter.Cate
     private User_Adapter user_adapter;
     private MyPagerAdapter_Native myPagerAdapter_native;
     private LiveDataConstant viewModelProvider;
+    private @NonNull ActivityMain2Binding activityMainBinding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-
-        UI();
+//        setContentView(R.layout.activity_main2);
+        activityMainBinding = ActivityMain2Binding.inflate(getLayoutInflater());
+        setContentView(activityMainBinding.getRoot());
+        UI(activityMainBinding.getRoot());
         internetSetup();
         viewModelProvider = new ViewModelProvider(this).get(LiveDataConstant.class);
         viewModelProvider.getList_Post(0).observe(this, obsererUser);
@@ -178,12 +182,14 @@ public class MainActivity extends AppCompatActivity implements User_Adapter.Cate
 
     }
 
-    private void UI() {
+    private void UI(View root) {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait");
-        rv_Llist = findViewById(R.id.rv_Llist);
-        tvConnectivityStatus = findViewById(R.id.tvConnectivityStatus);
-        viewPager = findViewById(R.id.viewPager);
+        rv_Llist = root.findViewById(R.id.rv_Llist);
+        tvConnectivityStatus = root.findViewById(R.id.tvConnectivityStatus);
+        viewPager = root.findViewById(R.id.viewPager);
+//        rv_Llist=activityMainBinding.rvList;
+//        rv_Llist=activityMainBinding.rvList;
         rv_Llist.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
     }
